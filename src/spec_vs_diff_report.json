@@ -1,0 +1,26 @@
+{
+  "kind": "spec_vs_diff_report",
+  "version": "1.0",
+  "generatedAt": "2026-02-04T20:41:48.257Z",
+  "summary": "Diff removes the VR bottom-nav tab by redefining the shared Tab union and tab list to a 5-module set (no 'vr') in BottomNav/CreateButton/InvestorFlowStepper/MainLayout, and updates InvestorFlowStepper’s sequence accordingly. However, the provided MainLayout diff is truncated, so the specific acceptance criterion about removing the 'vr' activeTab switch/case in MainLayout cannot be directly verified from the visible diff excerpt.",
+  "missing_requirements": [
+    {
+      "id": "REQ-15",
+      "requirement": "MainLayout no longer includes a switch case for an activeTab value of 'vr'.",
+      "reason": "MainLayout.tsx is truncated in the diff excerpt and does not show the routing/switch logic, so there is no direct evidence that any 'vr' case was removed from MainLayout’s tab routing logic.",
+      "evidence": [
+        "frontend/src/components/MainLayout.tsx (truncated)"
+      ]
+    }
+  ],
+  "hallucinated_features": [],
+  "confidence": 0.63,
+  "changed_files": [
+    "frontend-file-summaries.txt",
+    "frontend/src/components/BottomNav.tsx",
+    "frontend/src/components/CreateButton.tsx",
+    "frontend/src/components/InvestorFlowStepper.tsx",
+    "frontend/src/components/MainLayout.tsx",
+    "project_state.json"
+  ]
+}

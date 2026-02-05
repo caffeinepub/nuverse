@@ -1,0 +1,71 @@
+{
+  "kind": "build_request",
+  "title": "Remove VR bottom navigation tab and keep VR access via AIR module",
+  "priority": "normal",
+  "requirements": [
+    {
+      "id": "REQ-14",
+      "text": "Remove the “VR” button/tab from the fixed bottom navigation bar so users can no longer switch to VR from bottom navigation, because VR spaces are accessed through the AIR module instead.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-4"
+        ],
+        "quotes": [
+          "Take away the “VR” navigation button at the bottom of the screen, because you reach that portal through AIR module"
+        ]
+      },
+      "acceptanceCriteria": [
+        "The bottom navigation no longer renders a tab labeled “VR”.",
+        "There is no visual gap or broken layout in the bottom navigation after removing the VR tab.",
+        "Users can still reach the VR Spaces Hub via the AIR/Gaming portal entry points (e.g., GamingPage navigation to VR Spaces Hub still works)."
+      ]
+    },
+    {
+      "id": "REQ-15",
+      "text": "Update internal tab/view typing and navigation logic to remove the VR tab concept entirely (e.g., remove 'vr' from the Tab type and remove the 'vr' case in MainLayout routing) while keeping VR-related views (VR Spaces Hub, VR Space Creation, VR detail) reachable via in-module navigation flows.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-4"
+        ],
+        "quotes": [
+          "Take away the “VR” navigation button at the bottom of the screen, because you reach that portal through AIR module"
+        ]
+      },
+      "acceptanceCriteria": [
+        "TypeScript builds without references to a 'vr' bottom-nav tab.",
+        "MainLayout no longer includes a switch case for an activeTab value of 'vr'.",
+        "VR-related pages (e.g., VR Spaces Hub) remain accessible through existing in-module navigation callbacks."
+      ]
+    },
+    {
+      "id": "REQ-16",
+      "text": "Update the guided investor stepper sequence to remove the VR tab step so the stepper only advances through the remaining bottom navigation modules.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-4"
+        ],
+        "quotes": [
+          "Take away the “VR” navigation button at the bottom of the screen, because you reach that portal through AIR module"
+        ]
+      },
+      "acceptanceCriteria": [
+        "InvestorFlowStepper no longer displays “Next: VR”.",
+        "Clicking the stepper cycles through the remaining modules without errors."
+      ]
+    }
+  ],
+  "constraints": [
+    "Do not modify any files under frontend/src/components/ui or other frontend.immutablePaths."
+  ],
+  "nonGoals": [
+    "Do not remove or redesign VR-related pages/features (VR Spaces Hub, VR Space Creation, VR detail); only remove the bottom navigation entry point.",
+    "Do not change backend APIs or persistence for VR spaces."
+  ],
+  "imageRequirements": {
+    "required": [],
+    "edits": []
+  }
+}

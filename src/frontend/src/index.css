@@ -1,0 +1,277 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 220 15% 8%;
+    --foreground: 220 10% 98%;
+    --card: 220 15% 12%;
+    --card-foreground: 220 10% 98%;
+    --popover: 220 15% 12%;
+    --popover-foreground: 220 10% 98%;
+    --primary: 0.72 0.25 240;
+    --primary-foreground: 0.98 0.02 240;
+    --secondary: 220 15% 20%;
+    --secondary-foreground: 220 10% 98%;
+    --muted: 220 15% 20%;
+    --muted-foreground: 220 10% 70%;
+    --accent: 0.75 0.28 300;
+    --accent-foreground: 0.98 0.02 300;
+    --destructive: 0.55 0.25 25;
+    --destructive-foreground: 0.98 0.02 25;
+    --border: 220 15% 25%;
+    --input: 220 15% 25%;
+    --ring: 0.72 0.25 240;
+    --radius: 0.5rem;
+    --chart-1: 0.72 0.25 240;
+    --chart-2: 0.75 0.28 300;
+    --chart-3: 0.65 0.22 180;
+    --chart-4: 0.70 0.20 60;
+    --chart-5: 0.60 0.18 330;
+    
+    /* Pitch Mode Enhancements */
+    --pitch-surface-bg: 220 15% 12%;
+    --pitch-surface-border: 220 15% 25%;
+    --pitch-glow-primary: 0.72 0.25 240;
+    --pitch-glow-accent: 0.75 0.28 300;
+  }
+
+  .light {
+    --background: 220 15% 98%;
+    --foreground: 220 15% 10%;
+    --card: 220 10% 95%;
+    --card-foreground: 220 15% 10%;
+    --popover: 220 10% 95%;
+    --popover-foreground: 220 15% 10%;
+    --primary: 0.60 0.22 240;
+    --primary-foreground: 0.98 0.02 240;
+    --secondary: 220 10% 85%;
+    --secondary-foreground: 220 15% 10%;
+    --muted: 220 10% 85%;
+    --muted-foreground: 220 10% 40%;
+    --accent: 0.65 0.25 300;
+    --accent-foreground: 0.98 0.02 300;
+    --destructive: 0.55 0.25 25;
+    --destructive-foreground: 0.98 0.02 25;
+    --border: 220 10% 80%;
+    --input: 220 10% 80%;
+    --ring: 0.60 0.22 240;
+    --chart-1: 0.60 0.22 240;
+    --chart-2: 0.65 0.25 300;
+    --chart-3: 0.55 0.20 180;
+    --chart-4: 0.60 0.18 60;
+    --chart-5: 0.50 0.16 330;
+    
+    --pitch-surface-bg: 220 10% 95%;
+    --pitch-surface-border: 220 10% 80%;
+    --pitch-glow-primary: 0.60 0.22 240;
+    --pitch-glow-accent: 0.65 0.25 300;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+@layer components {
+  /* Global App Background */
+  .app-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    pointer-events: none;
+  }
+
+  .app-background-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('/assets/generated/nutech-subtle-gradient-bg.dim_1920x1080.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+  }
+
+  .app-background::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, 
+      oklch(var(--pitch-glow-primary) / 0.05) 0%, 
+      transparent 30%, 
+      oklch(var(--pitch-glow-accent) / 0.05) 100%
+    );
+    pointer-events: none;
+  }
+
+  .app-background::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('/assets/generated/nutech-geo-overlay.dim_1024x1024.png');
+    background-size: 512px 512px;
+    background-repeat: repeat;
+    opacity: 0.08;
+    pointer-events: none;
+  }
+
+  /* Fallback for browsers that don't support the image */
+  @supports not (background-image: url('/assets/generated/nutech-subtle-gradient-bg.dim_1920x1080.png')) {
+    .app-background-image {
+      background: linear-gradient(135deg, oklch(0.20 0.08 240) 0%, oklch(0.15 0.06 280) 50%, oklch(0.18 0.04 220) 100%);
+    }
+  }
+
+  /* Pitch Mode Surface System */
+  .pitch-surface {
+    background: oklch(var(--pitch-surface-bg) / 0.75);
+    backdrop-filter: blur(12px);
+    border: 1px solid oklch(var(--pitch-surface-border) / 0.4);
+    box-shadow: 
+      0 4px 24px -4px oklch(var(--pitch-glow-primary) / 0.12),
+      inset 0 1px 0 oklch(var(--foreground) / 0.05);
+  }
+
+  .pitch-nav {
+    background: oklch(var(--pitch-surface-bg) / 0.9);
+    backdrop-filter: blur(16px);
+    border-top: 1px solid oklch(var(--pitch-surface-border) / 0.5);
+    box-shadow: 0 -4px 24px -4px oklch(var(--pitch-glow-primary) / 0.15);
+  }
+
+  .pitch-create-fab {
+    background: linear-gradient(135deg, 
+      oklch(var(--pitch-glow-primary)) 0%, 
+      oklch(var(--pitch-glow-accent)) 100%
+    );
+    box-shadow: 
+      0 8px 32px -8px oklch(var(--pitch-glow-primary) / 0.5),
+      0 0 24px -4px oklch(var(--pitch-glow-primary) / 0.3);
+  }
+
+  .pitch-create-fab:hover {
+    box-shadow: 
+      0 12px 40px -8px oklch(var(--pitch-glow-primary) / 0.6),
+      0 0 32px -4px oklch(var(--pitch-glow-primary) / 0.4);
+  }
+
+  .pitch-stepper {
+    animation: pulse-glow 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse-glow {
+    0%, 100% {
+      filter: drop-shadow(0 0 8px oklch(var(--pitch-glow-accent) / 0.3));
+    }
+    50% {
+      filter: drop-shadow(0 0 16px oklch(var(--pitch-glow-accent) / 0.5));
+    }
+  }
+
+  .pitch-role-card {
+    transition: all 0.3s ease;
+  }
+
+  .pitch-role-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 
+      0 8px 32px -8px oklch(var(--pitch-glow-primary) / 0.2),
+      inset 0 1px 0 oklch(var(--foreground) / 0.08);
+  }
+
+  .drop-shadow-glow {
+    filter: drop-shadow(0 0 8px oklch(var(--pitch-glow-primary) / 0.6));
+  }
+}
+
+@layer utilities {
+  .bg-gradient-radial {
+    background-image: radial-gradient(var(--tw-gradient-stops));
+  }
+
+  @keyframes scan {
+    0% {
+      top: 0;
+      opacity: 0;
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      top: 100%;
+      opacity: 0;
+    }
+  }
+
+  .animate-scan {
+    animation: scan 2s ease-in-out infinite;
+  }
+
+  /* A.I.R. Gaming Portal Scoped Styles */
+  .air-gaming-portal {
+    /* Container styles for the gaming portal */
+  }
+
+  .air-gaming-card {
+    background-color: oklch(var(--card) / 0.5);
+    backdrop-filter: blur(8px);
+    border-width: 1px;
+    border-color: oklch(var(--primary) / 0.2);
+    transition-property: all;
+    transition-duration: 200ms;
+    box-shadow: 0 0 20px -5px oklch(var(--primary) / 0.1);
+  }
+
+  .air-gaming-card:hover {
+    border-color: oklch(var(--primary) / 0.4);
+    box-shadow: 0 0 30px -5px oklch(var(--primary) / 0.2);
+  }
+
+  .air-gaming-button {
+    transition-property: all;
+    transition-duration: 200ms;
+    box-shadow: 0 0 15px -3px oklch(var(--primary) / 0.15);
+  }
+
+  .air-gaming-button:hover {
+    box-shadow: 0 0 25px -3px oklch(var(--primary) / 0.3);
+  }
+
+  .air-gaming-panel {
+    box-shadow: 0 -10px 50px -10px oklch(var(--primary) / 0.3);
+  }
+
+  /* XR World Builder Scoped Styles */
+  .xr-world-builder-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .xr-world-builder-ui {
+    pointer-events: auto;
+  }
+
+  .xr-world-builder-ui button {
+    pointer-events: auto;
+  }
+}

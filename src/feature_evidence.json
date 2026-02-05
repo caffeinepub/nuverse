@@ -1,0 +1,69 @@
+{
+  "kind": "feature_evidence_report",
+  "features": [
+    {
+      "featureId": "feature-remove-the-vr-button-tab-from-the-fixed-bottom-navigation-bar-so-users-can-no-longer-switch-to-vr-from-bottom-navigation-because-vr-spaces-are-accessed-through-the-air-module-instead",
+      "featureTitle": "Remove the “VR” button/tab from the fixed bottom navigation bar so users can no longer switch to VR from bottom navigation, because VR spaces are accessed through the AIR module instead.",
+      "files": [
+        "frontend/src/components/BottomNav.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "camera@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-14"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-update-internal-tab-view-typing-and-navigation-logic-to-remove-the-vr-tab-concept-entirely-e-g-remove-vr-from-the-tab-type-and-remove-the-vr-case-in-mainlayout-routing-while-keeping-vr-related-views-vr-spaces-hub-vr-space-creation-vr-detail-reachable-via-in-module-navigation-flows",
+      "featureTitle": "Update internal tab/view typing and navigation logic to remove the VR tab concept entirely (e.g., remove 'vr' from the Tab type and remove the 'vr' case in MainLayout routing) while keeping VR-related views (VR Spaces Hub, VR Space Creation, VR detail) reachable via in-module navigation flows.",
+      "files": [
+        "frontend/src/components/CreateButton.tsx",
+        "frontend/src/components/MainLayout.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "camera@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-15"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-update-the-guided-investor-stepper-sequence-to-remove-the-vr-tab-step-so-the-stepper-only-advances-through-the-remaining-bottom-navigation-modules",
+      "featureTitle": "Update the guided investor stepper sequence to remove the VR tab step so the stepper only advances through the remaining bottom navigation modules.",
+      "files": [
+        "frontend/src/components/InvestorFlowStepper.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "camera@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-16"
+      ],
+      "confidence": "high"
+    }
+  ]
+}

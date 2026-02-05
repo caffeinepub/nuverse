@@ -1,0 +1,754 @@
+{
+  "schemaVersion": "1.0.0",
+  "projectStateVersion": 3,
+  "summary": "NuVerse is a pitch-ready “Nutech Universe” hub built as a React SPA + ICP (Motoko) backend. The frontend presents a condensed pitch shell with a guided investor stepper and a context-aware floating Create button. Primary navigation is a bottom bar across key modules (with VR reached via the AIR module rather than its own bottom-nav tab). The backend (Internet Computer canister) provides role-based access control, blob-based media handling (ExternalBlob), and APIs for profiles, social posting (with image + audio attachments), audio asset storage, NFTs, shoe products and design projects, shoe health tracking with alert notifications, live events, messaging primitives, and creator monetization configuration. Several demo modules are intentionally UI-only or locally persisted via localStorage (VR space builder drafts/publishing, creator slots, favorites/ratings/comments, avatar config and closet).",
+  "existing_features": [
+    {
+      "id": "IF-1",
+      "title": "Pitch-mode app shell with internal view-state routing",
+      "synonyms": [
+        "MainLayout router",
+        "view-state navigation"
+      ],
+      "description": "MainLayout controls active module/tab state and routes between many subviews (AIRspace pages, shoewear flows, VR builder/hub, XR builder, dashboards, etc.) without URL-based routing.",
+      "reqIds": [],
+      "version": 1
+    },
+    {
+      "id": "IF-2",
+      "title": "Condensed 6-tab bottom navigation",
+      "synonyms": [
+        "BottomNav",
+        "pitch navigation"
+      ],
+      "description": "Provides a fixed bottom navigation with six modules: Avatar/XR, NFT/Shoewear, AIRspace, VR, Wallet/Profile, and Music.",
+      "reqIds": [
+        "REQ-11"
+      ],
+      "version": 1
+    },
+    {
+      "id": "IF-3",
+      "title": "Top header with branding, live events shortcut, and unread notification badge",
+      "synonyms": [
+        "Header",
+        "unread badge"
+      ],
+      "description": "Sticky header shows NuVerse branding, optional Live Events button, and a notifications/messaging entry displaying unread notification count from backend.",
+      "reqIds": [],
+      "version": 1
+    },
+    {
+      "id": "IF-4",
+      "title": "Persistent context-aware floating Create FAB",
+      "synonyms": [
+        "CreateButton",
+        "Create FAB"
+      ],
+      "description": "Floating Create button triggers module-specific creation flows: AIRspace post dialog, NFT/Shoewear shoe/skin creation sheet (placeholder actions), VR create sheet (placeholder actions), Music create sheet (compose/upload), Wallet/Profile triggers dashboard create sheet, Avatar/XR shows \"coming soon\" toast.",
+      "reqIds": [
+        "REQ-9"
+      ],
+      "version": 1
+    },
+    {
+      "id": "IF-5",
+      "title": "Guided investor demo stepper across modules",
+      "synonyms": [
+        "InvestorFlowStepper",
+        "Next: module CTA"
+      ],
+      "description": "A bottom stepper advances through the investor flow sequence: Avatar/XR → NFT/Shoewear → AIRspace → VR → Wallet/Profile → Music.",
+      "reqIds": [
+        "REQ-12"
+      ],
+      "version": 1
+    },
+    {
+      "id": "IF-6",
+      "title": "Global futuristic background and pitch-surface styling system",
+      "synonyms": [
+        "AppBackground",
+        "pitch-surface",
+        "pitch-nav"
+      ],
+      "description": "Global background layer plus standardized translucent/blurred surfaces and glow effects for consistent pitch-mode visuals.",
+      "reqIds": [
+        "REQ-13"
+      ],
+      "version": 1
+    },
+    {
+      "id": "IF-7",
+      "title": "Internet Identity authentication lifecycle",
+      "synonyms": [
+        "useInternetIdentity",
+        "II login/logout"
+      ],
+      "description": "Internet Identity login with persisted delegation, status flags, and logout clearing the stored identity and app caches.",
+      "reqIds": [],
+      "version": 1
+    },
+    {
+      "id": "IF-8",
+      "title": "Backend actor lifecycle integrated with React Query",
+      "synonyms": [
+        "useActor",
+        "actor recreation on identity change"
+      ],
+      "description": "Creates an anonymous or authenticated canister actor; initializes access control on login and invalidates/refetches queries when actor identity changes.",
+      "reqIds": [],
+      "version": 1
+    },
+    {
+      "id": "IF-9",
+      "title": "Secret token extraction from URL hash with session persistence",
+      "synonyms": [
+        "getSecretParameter",
+        "URL hash secret handling"
+      ],
+      "description": "Reads sensitive parameters from the URL hash fragment, stores them in sessionStorage, and removes them from the URL to reduce leakage risk.",
+      "reqIds": [],
+      "version": 1
+    },
+    {
+      "id": "IF-10",
+      "title": "Role-based access control (RBAC) in Motoko",
+      "synonyms": [
+        "AccessControl",
+        "MixinAuthorization"
+      ],
+      "description": "Implements admin/user/guest roles; first initializer can become admin using an env token; privileged endpoints enforce role checks and ownership rules.",
+      "reqIds": [],
+      "version": 1
+    },
+    {
+      "id": "IF-11",
+      "title": "User profile creation and retrieval",
+      "synonyms": [
+        "ProfileSetupModal",
+        "getCallerUserProfile/getUserProfile"
+      ],
+      "description": "Authenticated users can create/save a profile (id, username, bio, optional avatar blob) and query their own or other users’ profiles.",
+      "reqIds": [],
+      "version": 1
+    },
+    {
+      "id": "IF-12",
+      "title": "Brand/Creator Dashboard (wallet/profile module)",
+      "synonyms": [
+        "ProfilePage",
+        "creator roles hub"
+      ],
+      "description": "Role-card dashboard (Designer/Creator/Author/Engineer/Music) linking to core prototype tools (shoe NFT portal, VR builder, monetization, avatar builder, GLB generator) and includes a bottom-sheet “Create New” entry point.",
+      "reqIds": [
+        "REQ-10"
+      ],
+      "version": 1
+    },
+    {
+      "id": "IF-13",
+      "title": "AIRspace feed rendering via portfolio query",
+      "synonyms": [
+        "AIRspacePage",
+        "useGetUserPortfolio"
+      ],
+      "description": "Loads the caller’s portfolio (posts + NFTs) and renders posts in reverse chronological order with profile navigation.",
+      "reqIds": [],
+      "version": 1
+    },
+    {
+      "id": "IF-14",
+      "title": "Create post dialog with optional image and audio attachment",
+      "synonyms": [
+        "CreatePostDialog",
+        "createPostWithAudio"
+      ],
+      "description": "Post creation UI supports text, optional image upload converted to ExternalBlob, and optional attachment of an uploaded audio asset by ID.",
+      "reqIds": [
+        "REQ-8"
+      ],
+      "version": 1
+    },
+    {
+      "id": "IF-15",
+      "title": "Post card rendering with audio playback",
+      "synonyms": [
+        "PostCard",
+        "audio attachments UI"
+      ],
+      "description": "Displays author profile info, post content, optional image, and embedded audio attachments with play controls using HTML Audio.",
+      "reqIds": [
+        "REQ-8"
+      ],
+      "version": 1
+    },
+    {
+      "id": "IF-16",
+      "title": "Audio attachment storage APIs and client hooks",
+      "synonyms": [
+        "uploadAudioAttachment",
+        "getAllAudioAttachments"
+      ],
+      "description": "Backend stores audio attachments (ExternalBlob + metadata) with owner/admin enforcement; frontend provides React Query hooks for upload, list, get, and delete.",
+      "reqIds": [
+        "REQ-8"
+      ],
+      "version": 1
+    },
+    {
+      "id": "IF-17",
+      "title": "Music & Audio module page",
+      "synonyms": [
+        "MusicModulePage",
+        "Music hub"
+      ],
+      "description": "Mobile-friendly music hub with three cards: Composer placeholder, audio upload, and marketplace placeholders (labels/artists/streaming services).",
+      "reqIds": [
+        "REQ-7"
+      ],
+      "version": 1
+    },
+    {
+      "id": "IF-18",
+      "title": "In-app composer placeholder using Web Audio API",
+      "synonyms": [
+        "ComposerPlaceholder",
+        "tone pads"
+      ],
+      "description": "Plays individual notes and a demo sequence via oscillator/gain nodes and displays active-note UI state.",
+      "reqIds": [
+        "REQ-7"
+      ],
+      "version": 1
+    },
+    {
+      "id": "IF-19",
+      "title": "Audio upload UI integrated with backend",
+      "synonyms": [
+        "AudioUploadCard",
+        "ExternalBlob upload"
+      ],
+      "description": "Allows selecting an audio file, setting a title, converting to ExternalBlob, and uploading as an AudioAttachment owned by the caller principal.",
+      "reqIds": [
+        "REQ-7",
+        "REQ-8"
+      ],
+      "version": 1
+    },
+    {
+      "id": "IF-20",
+      "title": "Audio asset picker with playback preview",
+      "synonyms": [
+        "AudioAssetPicker",
+        "attach audio selector"
+      ],
+      "description": "Lists all uploaded audio attachments, supports preview playback, and returns a selected AudioAttachment for use in post creation (and future attachment contexts).",
+      "reqIds": [
+        "REQ-8"
+      ],
+      "version": 1
+    },
+    {
+      "id": "IF-21",
+      "title": "Frontend portfolio aggregation (posts + NFTs)",
+      "synonyms": [
+        "useGetUserPortfolio",
+        "PortfolioContent composite query"
+      ],
+      "description": "Composite query fetches user posts and NFTs in parallel; VR experiences are currently returned as an empty placeholder list.",
+      "reqIds": [],
+      "version": 1
+    },
+    {
+      "id": "IF-22",
+      "title": "Public AIRspace profile view with follow/unfollow and portfolio tabs",
+      "synonyms": [
+        "AIRspaceProfilePage",
+        "portfolio tabs"
+      ],
+      "description": "Shows a user’s avatar, bio, follower counts, follow/unfollow, and portfolio grids for posts, AR/VR placeholder, and NFTs (with blob image decoding).",
+      "reqIds": [],
+      "version": 1
+    },
+    {
+      "id": "IF-23",
+      "title": "Follow/unfollow social graph and follower metrics",
+      "synonyms": [
+        "followUser/unfollowUser",
+        "getFollowers/getFollowerCount"
+      ],
+      "description": "Backend supports follow/unfollow and querying followers/count; frontend exposes corresponding hooks and integrates them into profile UI.",
+      "reqIds": [],
+      "version": 1
+    },
+    {
+      "id": "IF-24",
+      "title": "Messaging center UI (threads, friend requests, notifications)",
+      "synonyms": [
+        "AIRspaceMessagingPage",
+        "social inbox"
+      ],
+      "description": "Tabbed inbox shows chat threads, incoming friend requests (accept/reject), and notifications with unread indicators.",
+      "reqIds": [],
+      "version": 1
+    },
+    {
+      "id": "IF-25",
+      "title": "Chat threads and messaging primitives (backend + hooks)",
+      "synonyms": [
+        "createChatThread",
+        "sendMessage",
+        "getChatThreads"
+      ],
+      "description": "Backend supports creating chat threads, sending messages, and listing a caller’s threads; frontend provides React Query hooks to use these APIs.",
+      "reqIds": [],
+      "version": 1
+    },
+    {
+      "id": "IF-26",
+      "title": "Friend request workflow (backend + hooks + UI actions)",
+      "synonyms": [
+        "sendFriendRequest",
+        "accept/reject"
+      ],
+      "description": "Backend supports sending and managing friend requests; messaging UI allows accepting or rejecting pending requests.",
+      "reqIds": [],
+      "version": 1
+    },
+    {
+      "id": "IF-27",
+      "title": "Notifications feed with read-state updates",
+      "synonyms": [
+        "getNotifications",
+        "markNotificationAsRead"
+      ],
+      "description": "Backend stores per-user notifications with read state; frontend displays unread badges and provides a mutation to mark notifications as read.",
+      "reqIds": [],
+      "version": 1
+    },
+    {
+      "id": "IF-28",
+      "title": "Live events listing and join flow with polling",
+      "synonyms": [
+        "AIRspaceLiveEventsPage",
+        "LiveEvent"
+      ],
+      "description": "Backend supports creating and joining live events; frontend lists active events and polls periodically for updates, with join feedback and placeholder vote/comment actions.",
+      "reqIds": [],
+      "version": 1
+    },
+    {
+      "id": "IF-29",
+      "title": "Creator monetization portal (config + metrics dashboard)",
+      "synonyms": [
+        "AIRspaceMonetizationPage",
+        "MonetizationConfig"
+      ],
+      "description": "Allows enabling/disabling tipping, exclusive content, and NFT drops; supports theme selection; persists config to backend and displays basic analytics tiles and placeholders.",
+      "reqIds": [],
+      "version": 1
+    },
+    {
+      "id": "IF-30",
+      "title": "Shoe marketplace backend APIs and query hooks",
+      "synonyms": [
+        "ShoeProduct catalog",
+        "search/filter endpoints"
+      ],
+      "description": "Backend supports adding shoe products and querying all/by ID/by category and searching by brand with optional creator filter; frontend provides hooks for these endpoints.",
+      "reqIds": [],
+      "version": 1
+    },
+    {
+      "id": "IF-31",
+      "title": "Shoewear marketplace UI with product browsing and detail dialog",
+      "synonyms": [
+        "ShoewearPage",
+        "product filters"
+      ],
+      "description": "Marketplace UI supports search, advanced filters (brand/style/NFT status), grid/carousel modes, and a product detail dialog with AR preview placeholder and cart/wishlist buttons.",
+      "reqIds": [],
+      "version": 1
+    },
+    {
+      "id": "IF-32",
+      "title": "Shoe NFT browsing UI using placeholder data",
+      "synonyms": [
+        "NFTCard grid",
+        "Shoe NFTs tab"
+      ],
+      "description": "Provides a Shoe NFTs tab in the marketplace using placeholder NFT data with filters (rarity/creator/collection) and NFTCard rendering.",
+      "reqIds": [],
+      "version": 1
+    },
+    {
+      "id": "IF-33",
+      "title": "Shoe designer projects (backend persistence + UI editor)",
+      "synonyms": [
+        "ShoeDesignerPage",
+        "ShoeDesignProject"
+      ],
+      "description": "Backend supports creating projects, uploading 2D/3D design files, and saving customization (colors/textures/patterns/effects); UI supports uploads, customization selection, and saving to backend.",
+      "reqIds": [],
+      "version": 1
+    },
+    {
+      "id": "IF-34",
+      "title": "OLED settings persistence (backend) with UI toggles",
+      "synonyms": [
+        "saveOLEDSettings/getOLEDSettings",
+        "OLED integration"
+      ],
+      "description": "Backend stores per-user OLED settings; dashboard UIs can read and update the enabled state (Bluetooth pairing/display mode fields included).",
+      "reqIds": [],
+      "version": 1
+    },
+    {
+      "id": "IF-35",
+      "title": "Shoe health tracking with alert notifications",
+      "synonyms": [
+        "ShoeHealth",
+        "shoeHealthAlert"
+      ],
+      "description": "Backend stores per-user shoe health metrics and generates alerts based on thresholds; frontend health tracker lists shoes, shows status, allows add/update, and displays maintenance alerts.",
+      "reqIds": [],
+      "version": 1
+    },
+    {
+      "id": "IF-36",
+      "title": "AIR integration settings per NFT with toggle UI",
+      "synonyms": [
+        "AirIntegrationSettings",
+        "Use in AIR Experiences"
+      ],
+      "description": "Backend stores per-NFT integration toggles (owner/admin enforced); NFT detail page shows three toggles with optimistic updates and persistence.",
+      "reqIds": [],
+      "version": 1
+    },
+    {
+      "id": "IF-37",
+      "title": "Shoe NFT portal prototype flows (collection, claim, scan, drops, detail)",
+      "synonyms": [
+        "NutechShoeNFTPortalPage",
+        "NFT portal flow"
+      ],
+      "description": "Implements a dedicated portal experience around placeholder shoe NFTs, including collection grid, claim flow modal, scan-to-NFT simulation, and limited drops browsing.",
+      "reqIds": [],
+      "version": 1
+    },
+    {
+      "id": "IF-38",
+      "title": "Claim Shoe NFT multi-step modal (UI simulation)",
+      "synonyms": [
+        "ClaimShoeNFTModal",
+        "mint simulation"
+      ],
+      "description": "Four-step guided flow (select design, confirm ownership, review, generate) with animated transitions and toast feedback (no real minting).",
+      "reqIds": [],
+      "version": 1
+    },
+    {
+      "id": "IF-39",
+      "title": "Scan shoe to NFT simulation page",
+      "synonyms": [
+        "ScanShoeToNFTPage",
+        "digital twin scan UI"
+      ],
+      "description": "Futuristic scanner UI with simulated scanning animation and a placeholder \"Create Digital Twin\" action.",
+      "reqIds": [],
+      "version": 1
+    },
+    {
+      "id": "IF-40",
+      "title": "NFT drops page with live countdown timers (placeholder data)",
+      "synonyms": [
+        "NFTDropsPage",
+        "drops countdown"
+      ],
+      "description": "Displays upcoming drops with live countdown timer and a \"Join Drop\" placeholder action.",
+      "reqIds": [],
+      "version": 1
+    },
+    {
+      "id": "IF-41",
+      "title": "List Shoe NFT modal (UI-only listing simulation)",
+      "synonyms": [
+        "ListShoeNFTModal",
+        "marketplace listing flow"
+      ],
+      "description": "Three-step listing flow (price, duration, review) with animated step transitions and simulated listing completion.",
+      "reqIds": [],
+      "version": 1
+    },
+    {
+      "id": "IF-42",
+      "title": "Accessories marketplace UI (placeholder catalog + buy/sell/trade forms)",
+      "synonyms": [
+        "NutechShoeAccessoriesMarketplacePage",
+        "accessory trading UI"
+      ],
+      "description": "Search/filter accessory catalog (placeholder data) with detail dialog, AR preview placeholder, and buy/sell/trade dialogs producing toast confirmations (no backend persistence).",
+      "reqIds": [],
+      "version": 1
+    },
+    {
+      "id": "IF-43",
+      "title": "Brand/creator dashboard for design projects and local accessory listings",
+      "synonyms": [
+        "NutechBrandCreatorDashboardPage",
+        "brand dashboard"
+      ],
+      "description": "Lists backend design projects with delete actions, manages accessory listings in local UI state, shows analytics placeholders, and exposes settings toggles including OLED integration (backend persisted).",
+      "reqIds": [],
+      "version": 1
+    },
+    {
+      "id": "IF-44",
+      "title": "VR Spaces Hub with mock + locally published spaces",
+      "synonyms": [
+        "AIRVRSpacesHubPage",
+        "VR worlds list"
+      ],
+      "description": "Lists mock VR worlds and merges in locally published VR spaces from localStorage; routes to VR creation and detail views.",
+      "reqIds": [],
+      "version": 1
+    },
+    {
+      "id": "IF-45",
+      "title": "VR Space Creation builder with local draft/publish persistence",
+      "synonyms": [
+        "AIRVRSpaceCreationPage",
+        "VR space builder"
+      ],
+      "description": "Builder supports metadata, layout choice, asset library, object inspector (transform/material), environment/lighting presets, rules configuration, and local save draft/publish operations.",
+      "reqIds": [],
+      "version": 1
+    },
+    {
+      "id": "IF-46",
+      "title": "VR space storage utilities (draft + published)",
+      "synonyms": [
+        "vrSpaceStorage",
+        "local persistence"
+      ],
+      "description": "LocalStorage utility for saving/deleting drafts and publishing/deleting published VR spaces, used by VR hub and builder.",
+      "reqIds": [],
+      "version": 1
+    },
+    {
+      "id": "IF-47",
+      "title": "Brand/creator upload slots management (local persistence)",
+      "synonyms": [
+        "AIRBrandCreatorSlotsPage",
+        "creatorSlotsStorage"
+      ],
+      "description": "Reserves and manages game/VR upload slots with create/edit/delete dialogs, thumbnail previews, statuses, and capacity tracking persisted to localStorage.",
+      "reqIds": [],
+      "version": 1
+    },
+    {
+      "id": "IF-48",
+      "title": "A.I.R. gaming portal (mock catalog browsing)",
+      "synonyms": [
+        "GamingPage",
+        "game discovery"
+      ],
+      "description": "Game catalog browsing using mock data with search/filtering and navigation cards to VR hub, creator slots, avatar previews, and XR world builder.",
+      "reqIds": [],
+      "version": 1
+    },
+    {
+      "id": "IF-49",
+      "title": "Game/VR detail page with local interaction persistence",
+      "synonyms": [
+        "AIRGameVRDetailPage",
+        "favorites/ratings/comments"
+      ],
+      "description": "Dual-mode detail page (game or VR space) with favorite toggle, star rating, and comments persisted to localStorage; includes placeholder play/enter VR/AR preview actions and a Play Anywhere CTA.",
+      "reqIds": [],
+      "version": 1
+    },
+    {
+      "id": "IF-50",
+      "title": "A.I.R. Play Anywhere connectivity simulation",
+      "synonyms": [
+        "AIRPlayAnywherePage",
+        "platform sync"
+      ],
+      "description": "Simulates connecting/disconnecting and launching a selected game/VR space across platforms (Mobile, SmartCubes, TV cast, Console) with status indicators and placeholder previews.",
+      "reqIds": [],
+      "version": 1
+    },
+    {
+      "id": "IF-51",
+      "title": "Avatar builder with local persistence and save/revert",
+      "synonyms": [
+        "AvatarBuilderPage",
+        "useAvatarConfig"
+      ],
+      "description": "Users customize avatar config (skin tone, face, hair, body type) with live preview and localStorage persistence, including unsaved-change detection and revert.",
+      "reqIds": [],
+      "version": 1
+    },
+    {
+      "id": "IF-52",
+      "title": "Avatar closet wardrobe equip/unequip with local persistence",
+      "synonyms": [
+        "AvatarClosetPage",
+        "equipped look"
+      ],
+      "description": "Equip/unequip shoes/accessories/outfits from placeholder items, preview changes in real time, and save EquippedLook to localStorage.",
+      "reqIds": [],
+      "version": 1
+    },
+    {
+      "id": "IF-53",
+      "title": "SVG avatar preview renderer with wardrobe overlays",
+      "synonyms": [
+        "AvatarPreview",
+        "avatar SVG"
+      ],
+      "description": "Renders a simple SVG avatar based on AvatarConfig and overlays equipped shoes/accessories/outfit (color-driven placeholder visuals).",
+      "reqIds": [],
+      "version": 1
+    },
+    {
+      "id": "IF-54",
+      "title": "Avatar preview experiences (Game staging + SmartCube simulation)",
+      "synonyms": [
+        "AvatarGamePreviewPage",
+        "AvatarSmartCubePreviewPage"
+      ],
+      "description": "Preview avatar + equipped look in stylized scenes; SmartCube preview adds stance selection and a simulated hardware sync flow.",
+      "reqIds": [],
+      "version": 1
+    },
+    {
+      "id": "IF-55",
+      "title": "XR attachment target registry and equipped-item mapping",
+      "synonyms": [
+        "xrAttachmentTargets",
+        "nuverseEquippedItemMapping"
+      ],
+      "description": "Defines standardized attachment targets with fallback bone names and maps equipped item IDs to XR GLB assets and attachment metadata (bone, offsets, scale).",
+      "reqIds": [],
+      "version": 1
+    },
+    {
+      "id": "IF-56",
+      "title": "NuTech XR World Builder (A-Frame scene + avatar + diagnostics)",
+      "synonyms": [
+        "NuTechXRWorldBuilderPage",
+        "WebXR builder"
+      ],
+      "description": "Dynamically loads A-Frame 1.5.0, constructs a scene, loads the avatar GLB, attaches equipped items to bones with fallbacks, supports stance switching, adds simple primitives to the scene, and shows diagnostics (bones/clips/transforms).",
+      "reqIds": [],
+      "version": 1
+    },
+    {
+      "id": "IF-57",
+      "title": "Custom A-Frame components for stance animation and equipment attachment",
+      "synonyms": [
+        "avatar-animation-controller",
+        "equipment-attachment"
+      ],
+      "description": "Registers A-Frame components to control avatar animation via AnimationMixer and to attach equipment to resolved skeleton bones with fallback resolution and offsets.",
+      "reqIds": [],
+      "version": 1
+    },
+    {
+      "id": "IF-58",
+      "title": "Three.js rigged avatar GLB generator (developer tool)",
+      "synonyms": [
+        "AnimeAvatarGenerator",
+        "AvatarGLBGeneratorPage"
+      ],
+      "description": "Programmatically generates a rigged anime-style avatar with named bones and Idle/Action/Victory clips, exports as GLB, and provides a UI to generate/download for XR testing.",
+      "reqIds": [],
+      "version": 1
+    },
+    {
+      "id": "IF-59",
+      "title": "Camera capture hook (MediaDevices integration)",
+      "synonyms": [
+        "useCamera",
+        "photo capture"
+      ],
+      "description": "Reusable hook for camera start/stop, facing mode switching, error handling, and capturing a still image as a File via canvas.",
+      "reqIds": [],
+      "version": 1
+    },
+    {
+      "id": "IF-60",
+      "title": "Blob-storage maintenance mixin (gateway auth + dead blob pruning + cashier refill)",
+      "synonyms": [
+        "MixinStorage",
+        "Storage maintenance endpoints"
+      ],
+      "description": "Backend exposes authorized operations to update gateway principals, query live blobs, list/prune dead blobs, trigger GC, and refill cashier cycles (cashier-only).",
+      "reqIds": [],
+      "version": 1
+    },
+    {
+      "id": "feature-remove-the-vr-button-tab-from-the-fixed-bottom-navigation-bar-so-users-can-no-longer-switch-to-vr-from-bottom-navigation-because-vr-spaces-are-accessed-through-the-air-module-instead",
+      "title": "Remove the “VR” button/tab from the fixed bottom navigation bar so users can no longer switch to VR from bottom navigation, because VR spaces are accessed through the AIR module instead.",
+      "reqIds": [
+        "REQ-14"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-internal-tab-view-typing-and-navigation-logic-to-remove-the-vr-tab-concept-entirely-e-g-remove-vr-from-the-tab-type-and-remove-the-vr-case-in-mainlayout-routing-while-keeping-vr-related-views-vr-spaces-hub-vr-space-creation-vr-detail-reachable-via-in-module-navigation-flows",
+      "title": "Update internal tab/view typing and navigation logic to remove the VR tab concept entirely (e.g., remove 'vr' from the Tab type and remove the 'vr' case in MainLayout routing) while keeping VR-related views (VR Spaces Hub, VR Space Creation, VR detail) reachable via in-module navigation flows.",
+      "reqIds": [
+        "REQ-15"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-the-guided-investor-stepper-sequence-to-remove-the-vr-tab-step-so-the-stepper-only-advances-through-the-remaining-bottom-navigation-modules",
+      "title": "Update the guided investor stepper sequence to remove the VR tab step so the stepper only advances through the remaining bottom navigation modules.",
+      "reqIds": [
+        "REQ-16"
+      ],
+      "version": 1
+    }
+  ],
+  "new_feature_requests": [
+    {
+      "id": "AR-1",
+      "summary": "Remove the “VR” bottom navigation button/tab; route VR portal access through the AIR module instead.",
+      "reqIds": [],
+      "status": "pending"
+    }
+  ],
+  "architectural_notes": [
+    "Frontend is a React SPA using an internal view-state router in MainLayout (not URL routing) to switch between modules and subpages.",
+    "TanStack React Query is the primary client data layer; all canister calls are wrapped in typed query/mutation hooks with targeted cache invalidation.",
+    "Authentication uses Internet Identity (AuthClient) with identity restoration; the app gates between Login, Profile setup, and the main pitch shell.",
+    "Backend access control is implemented in Motoko via a mixin + AccessControl module; first initializer can become admin via an env-token secret.",
+    "Media payloads are represented as ExternalBlob; the frontend renders via getDirectURL() in many places and via getBytes()+ObjectURL in others.",
+    "Multiple modules persist prototype state to localStorage (avatar config, equipped look, VR space drafts/published, creator slots, game/VR detail interactions).",
+    "XR tooling dynamically loads A-Frame and registers custom components to drive avatar animation (AnimationMixer) and equipment-to-bone attachments with fallback bone resolution.",
+    "UI layer is TailwindCSS + shadcn/ui primitives, with next-themes for theming and sonner for toast feedback.",
+    "Bottom navigation should not include a dedicated VR tab; VR is accessed via the AIR module entry points."
+  ],
+  "known_issues": [
+    "Backend actor initialization traps if CAFFEINE_ADMIN_TOKEN env var is missing (used by _initializeAccessControlWithSecret).",
+    "Blob storage cashier env var key is spelled \"CAFFFEINE_STORAGE_CASHIER_PRINCIPAL\" (extra “F”), likely mismatching deployment configuration.",
+    "MainLayout navigates to AIRGameVRDetailPage using only an ID/mode but passes game/vrWorld as undefined, so the detail page often shows “No content to display”.",
+    "ShoewearPage calls useGetShoeProductsByCategory(activeCategory as ShoeCategory) even when activeCategory is \"shoeNFTs\", which is not a valid backend ShoeCategory.",
+    "NutechBrandCreatorDashboardPage uses useState for side-effect initialization of OLED settings (should be useEffect); oledEnabled may not sync when oledSettings loads/changes.",
+    "AIRspaceMonetizationPage sets React state during render when localConfig is null, which can cause React warnings and extra renders.",
+    "Object URLs created from blobs (avatars, thumbnails, post/NFT images) are not consistently revoked, risking memory leaks in long sessions.",
+    "Avatar closet accessory IDs (acc-*) do not match XR equipment mapping accessory IDs (accessory-*), so XR accessory attachments will not resolve.",
+    "Motoko canister state is stored in non-stable in-memory structures (Map/List vars); data will be lost on upgrade/reinstall unless separately stabilized.",
+    "There are two CSS entry files (frontend/index.css and frontend/src/index.css); only src/index.css is imported, which can confuse maintenance and theming."
+  ],
+  "isFixRequest": false,
+  "gameProjectType": "none",
+  "projectName": "NuVerse",
+  "clarification_mode": "instant",
+  "clarification_rounds": 0
+}

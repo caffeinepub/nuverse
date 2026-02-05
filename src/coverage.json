@@ -1,0 +1,64 @@
+{
+  "kind": "coverage_report",
+  "version": "1.0",
+  "generatedAt": "2026-02-04T20:41:48.279Z",
+  "sources": {
+    "buildRequest": true,
+    "implementationPlan": true
+  },
+  "requirements": {
+    "total": 3,
+    "implemented": 3,
+    "items": [
+      {
+        "id": "REQ-14",
+        "summary": "Remove the “VR” button/tab from the fixed bottom navigation bar so users can no longer switch to VR from bottom navigation, because VR spaces are accessed through the AIR module instead.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/components/BottomNav.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/components/BottomNav.tsx"
+        ]
+      },
+      {
+        "id": "REQ-15",
+        "summary": "Update internal tab/view typing and navigation logic to remove the VR tab concept entirely (e.g., remove 'vr' from the Tab type and remove the 'vr' case in MainLayout routing) while keeping VR-related views (VR Spaces Hub, VR Space Creation, VR detail) reachable via in-module navigation flows.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/components/MainLayout.tsx",
+          "frontend/src/components/CreateButton.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/components/MainLayout.tsx",
+          "frontend/src/components/CreateButton.tsx"
+        ]
+      },
+      {
+        "id": "REQ-16",
+        "summary": "Update the guided investor stepper sequence to remove the VR tab step so the stepper only advances through the remaining bottom navigation modules.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/components/InvestorFlowStepper.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/components/InvestorFlowStepper.tsx"
+        ]
+      }
+    ]
+  },
+  "changedFiles": [
+    "build-request.json",
+    "feature_evidence.json",
+    "frontend-file-summaries.txt",
+    "frontend-implementation-plan.json",
+    "frontend/src/components/BottomNav.tsx",
+    "frontend/src/components/CreateButton.tsx",
+    "frontend/src/components/InvestorFlowStepper.tsx",
+    "frontend/src/components/MainLayout.tsx",
+    "project_state.json",
+    "scratch/component-selection.json",
+    "spec.md",
+    "spec_vs_diff_report.json"
+  ]
+}

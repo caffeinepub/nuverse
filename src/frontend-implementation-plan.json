@@ -1,0 +1,59 @@
+{
+  "kind": "implementation_plan",
+  "version": "1.0",
+  "title": "Remove VR bottom navigation tab while keeping VR access via AIR module",
+  "requirements": [
+    {
+      "id": "REQ-14",
+      "summary": "Remove the VR tab from the fixed bottom navigation so VR is no longer accessible from bottom-nav.",
+      "acceptanceCriteria": [
+        "The bottom navigation no longer renders a tab labeled “VR”.",
+        "There is no visual gap or broken layout in the bottom navigation after removing the VR tab.",
+        "Users can still reach the VR Spaces Hub via the AIR/Gaming portal entry points (e.g., GamingPage navigation to VR Spaces Hub still works)."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/BottomNav.tsx",
+          "operation": "modify",
+          "description": "Remove the 'VR' tab from the bottom navigation tabs list (including its icon import) and ensure the remaining tabs render with consistent spacing and alignment (no gaps)."
+        }
+      ]
+    },
+    {
+      "id": "REQ-15",
+      "summary": "Remove the VR bottom-nav tab concept from types and MainLayout tab routing while keeping VR views reachable via in-module navigation flows.",
+      "acceptanceCriteria": [
+        "TypeScript builds without references to a 'vr' bottom-nav tab.",
+        "MainLayout no longer includes a switch case for an activeTab value of 'vr'.",
+        "VR-related pages (e.g., VR Spaces Hub) remain accessible through existing in-module navigation callbacks."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/MainLayout.tsx",
+          "operation": "modify",
+          "description": "Update the Tab union type to remove 'vr', remove the activeTab switch case that renders VR from bottom-nav, and ensure any tab-change logic cannot set activeTab to 'vr' while preserving currentView-based navigation to VR pages (e.g., vrSpacesHub/vrSpaceCreation/gameVRDetail) via existing callbacks."
+        },
+        {
+          "path": "frontend/src/components/CreateButton.tsx",
+          "operation": "modify",
+          "description": "Update the Tab union type to remove 'vr' and remove the VR-specific create flow tied to the bottom-nav module concept (e.g., the 'vr' branch and any VR-create UI state), keeping VR creation accessible via existing VR hub/module navigation instead."
+        }
+      ]
+    },
+    {
+      "id": "REQ-16",
+      "summary": "Update the investor guided stepper sequence to skip the removed VR bottom-nav module.",
+      "acceptanceCriteria": [
+        "InvestorFlowStepper no longer displays “Next: VR”.",
+        "Clicking the stepper cycles through the remaining modules without errors."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/InvestorFlowStepper.tsx",
+          "operation": "modify",
+          "description": "Remove 'vr' from the Tab union type, flowSequence, and tabLabels so the stepper only advances through the remaining bottom navigation modules and never computes a next step of VR."
+        }
+      ]
+    }
+  ]
+}
